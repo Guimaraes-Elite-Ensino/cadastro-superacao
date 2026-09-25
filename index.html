@@ -34,6 +34,14 @@
   var parametros = new URLSearchParams(location.search);
   var lote = (parametros.get("lote") || "professores-2026").replace(/[^a-z0-9-]/gi, "").slice(0, 40);
   var alvo = BASE + "?lote=" + encodeURIComponent(lote);
+  // Painel da coordenação e página da gráfica: repassa o modo e a chave, só no
+  // formato esperado, para abrirem aqui também sem o aviso do Google.
+  var modo = parametros.get("modo");
+  var chave = (parametros.get("k") || "").replace(/[^A-Z0-9]/g, "").slice(0, 32);
+  if (modo === "crachas") {
+    alvo += "&modo=crachas" + (chave ? "&k=" + chave : "");
+    document.title = "Crachás e painel";
+  }
   document.getElementById("direto").href = alvo;
   var quadro = document.createElement("iframe");
   quadro.src = alvo;

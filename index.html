@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101014">
+<meta name="robots" content="noindex, nofollow">
+<title>Cadastro de colaboradores</title>
+<style>
+  /* Página de abertura do formulário de cadastro (Apps Script). Embutido aqui,
+     o formulário abre sem o aviso cinza que o Google põe no topo quando o link
+     do Apps Script é aberto direto. Esta página não guarda dado nenhum. */
+  :root { color-scheme: dark; }
+  html, body { margin: 0; height: 100%; background: #101014; }
+  body { font-family: system-ui, "Segoe UI", sans-serif; color: #a6a49d; }
+  iframe {
+    position: fixed; inset: 0; width: 100%; height: 100%; height: 100dvh;
+    border: 0; display: block; background: transparent;
+  }
+  .carregando {
+    position: fixed; inset: 0; display: grid; place-items: center;
+    font-size: 14px; text-align: center; padding: 16px;
+  }
+  .carregando a { color: #c9a227; }
+</style>
+</head>
+<body>
+<div class="carregando" id="carregando">
+  <p>Abrindo o cadastro...<br><a id="direto" href="#">Se não abrir, toque aqui</a></p>
+</div>
+<script>
+  // O lote vem do endereço desta página (?lote=...), igual ao link do Apps Script.
+  var BASE = "https://script.google.com/macros/s/AKfycbyiHb_jecweKnoGxOo4Ew1e4fsGzNfj5BMLbCWGARXfsLuIOrKky8_zLW4hqnDR2cP3/exec";
+  var parametros = new URLSearchParams(location.search);
+  var lote = (parametros.get("lote") || "professores-2026").replace(/[^a-z0-9-]/gi, "").slice(0, 40);
+  var alvo = BASE + "?lote=" + encodeURIComponent(lote);
+  document.getElementById("direto").href = alvo;
+  var quadro = document.createElement("iframe");
+  quadro.src = alvo;
+  quadro.title = "Cadastro de colaboradores";
+  quadro.allow = "camera; clipboard-write";
+  quadro.addEventListener("load", function () {
+    document.getElementById("carregando").style.visibility = "hidden";
+  });
+  document.body.appendChild(quadro);
+</script>
+</body>
+</html>
